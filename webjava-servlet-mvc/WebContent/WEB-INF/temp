@@ -1,0 +1,45 @@
+var $searchForm = $("#searchForm");
+
+$searchForm.submit(function(event){
+	$('#demo').pagination({
+	     dataSource: function(done) {
+	         $.ajax({
+	             type: 'GET',
+	             url: '/searchActor2.do',
+	             data: $searchForm.serialize(), // serializes the form's elements.
+	             dataType: 'html',
+	             success: function(response) {
+	            	consloe.log("success");
+	     	    	consloe.log(response);
+	                 done(response);
+	             }
+	         });
+	      },
+	    locator: 'items',
+	    totalNumberLocator: function(response) {
+	    	consloe.log("totalNumberLocator");
+	    	consloe.log(response);
+	    	return 200;
+	        // you can return totalNumber by analyzing response content
+	      //  return Math.floor(Math.random() * (1000 - 100)) + 100;
+	    },
+	    pageNumber: 1,
+	    pageSize: 10,
+	    className: 'paginationjs-theme-yellow paginationjs-small',
+	    ajax: {
+	        beforeSend: function() {
+	            dataContainer.html('Loading data from flickr.com ...');
+	        }
+	    },
+	    callback: function(data, pagination) {
+	        // template method of yourself
+	       // var html = template(data);
+	        //dataContainer.html(html);
+	        console.log("callback");
+	        console.log(data);
+	        console.log(pagination);
+	    }
+	})
+
+	});
+});
